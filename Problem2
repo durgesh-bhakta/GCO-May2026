@@ -1,0 +1,44 @@
+import java.util.*;
+import java.util.regex.*;
+ 
+public class Problem2 {
+ 
+    public static void main(String[] args) {
+        String[] lines = {
+            "18 24 30",
+            "7,14,21",
+            "9, 27, 81",
+            "100 200 300",
+            "5 10",
+            "8,16,24,32",
+            "-12 -18 -24",
+            "11, 22, abc",
+            "0 0 5"
+        };
+ 
+        Pattern valid = Pattern.compile(
+            "^\\s*(-?\\d+)(?:\\s+|,\\s*|,)(-?\\d+)(?:\\s+|,\\s*|,)(-?\\d+)\\s*$"
+        );
+ 
+        long totalGCD = 0;
+ 
+        for (String line : lines) {
+            Matcher m = valid.matcher(line);
+            if (!m.matches()) continue;
+ 
+            long a = Long.parseLong(m.group(1));
+            long b = Long.parseLong(m.group(2));
+            long c = Long.parseLong(m.group(3));
+ 
+            long g = gcd(gcd(Math.abs(a), Math.abs(b)), Math.abs(c));
+            System.out.printf("Valid: %-20s GCD = %d%n", line.trim(), g);
+            totalGCD += g;
+        }
+ 
+        System.out.println("Total GCD sum = " + totalGCD);
+    }
+ 
+    static long gcd(long a, long b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+}
