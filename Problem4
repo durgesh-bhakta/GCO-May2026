@@ -1,0 +1,53 @@
+import java.util.*;
+
+class Problem4 {
+    static class Node {
+        String s;
+        int d;
+        Node(String s, int d) {
+            this.s = s;
+            this.d = d;
+        }
+    }
+
+    static boolean valid(String s) {
+        return !s.contains("CC");
+    }
+
+    public static void main(String[] args) {
+        String start = "CBAB";
+        String end = "ABCB";
+        Queue<Node> q = new LinkedList<>();
+        Map<String, Integer> dist = new HashMap<>();
+        Map<String, Integer> ways = new HashMap<>();
+        q.add(new Node(start, 0));
+        dist.put(start, 0);
+        ways.put(start, 1);
+        char[] ch = {'A', 'B', 'C'};
+        while (!q.isEmpty()) {
+            Node cur = q.poll();
+            if (cur.s.equals(end)) continue;
+            char[] arr = cur.s.toCharArray();
+            for (int i = 0; i < arr.length; i++) {
+                char old = arr[i];
+                for (char c : ch) {
+                    if (c == old) continue;
+                    arr[i] = c;
+                    String next = new String(arr);
+                    if (!valid(next)) continue;
+                    if (!dist.containsKey(next)) {
+                        dist.put(next, cur.d + 1);
+                        ways.put(next, ways.get(cur.s));
+                        q.add(new Node(next, cur.d + 1));
+                    }
+                    else if (dist.get(next) == cur.d + 1) {
+                        ways.put(next, ways.get(next) + ways.get(cur.s));
+                    }
+                }
+                arr[i] = old;
+            }
+        }
+        System.out.println("Length: " + dist.get(end));
+        System.out.println("Paths: " + ways.get(end));
+    }
+}
