@@ -7,3 +7,5 @@ class Problem1 {
             System.out.print((char) Integer.parseInt(x));
     }
 }
+
+//Output: Hello
