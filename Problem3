@@ -1,0 +1,31 @@
+public class Problem3 {
+    static int[][] grid = {
+        {1,1,0,0,1},
+        {0,1,1,0,0},
+        {0,0,1,0,1},
+        {1,0,0,1,1},
+        {0,0,1,0,0}
+    };
+    static boolean[][] visited = new boolean[5][5];
+    public static void main(String[] args) {
+        int clusters = 0;
+        for (int r = 0; r < 5; r++) {
+            for (int c = 0; c < 5; c++) {
+                if (grid[r][c] == 1 && !visited[r][c]) {
+                    dfs(r, c);
+                    clusters++;
+                }
+            }
+        }
+        System.out.println("Connected clusters = " + clusters);
+    }
+    static void dfs(int r, int c) {
+        if (r < 0 || r >= 5 || c < 0 || c >= 5) return;
+        if (visited[r][c] || grid[r][c] == 0) return;
+        visited[r][c] = true;
+        dfs(r - 1, c);
+        dfs(r + 1, c);
+        dfs(r, c - 1);
+        dfs(r, c + 1);
+    }
+}
