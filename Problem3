@@ -29,3 +29,5 @@ public class Problem3 {
         dfs(r, c + 1);
     }
 }
+
+//Output: Connected clusters = 4
